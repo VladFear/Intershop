@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pictures/hua.jpg</file>
+        <file>pictures/iphone.jpg</file>
+        <file>pictures/meizu.jpg</file>
+        <file>pictures/mi.jpg</file>
+        <file>pictures/nokia.jpg</file>
+        <file>pictures/samsung.jpg</file>
+        <file>pictures/sony.jpg</file>
+        <file>pictures/intershop1.png</file>
+    </qresource>
+</RCC>
