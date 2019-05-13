@@ -19,7 +19,8 @@ void MainWindow::createInterior()
     "QLabel { color: white; } ");
     login_but = new QPushButton(this);
     login_but->setStyleSheet(
-    "QPushButton { color: white; }");
+    "QPushButton { color: white; }"
+    "QPushButton:pressed { background-color: green; } ");
     register_but = new QPushButton(this);
     register_but->setStyleSheet(
     "QPushButton { color: white; }");
@@ -32,7 +33,7 @@ void MainWindow::createInterior()
     phone_pict->setPixmap(phone_pix);
 
     navigation_lay->addItem(new QSpacerItem(400, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
-        navigation_lay->addWidget(phone_pict);
+    navigation_lay->addWidget(phone_pict);
     navigation_lay->addWidget(number_lbl, 1, Qt::AlignLeft);
     navigation_lay->addItem(new QSpacerItem(200, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
     navigation_lay->addWidget(login_but, 0, Qt::AlignRight);
@@ -83,36 +84,55 @@ void MainWindow::createInterior()
     general_headerlay->addLayout(header_lay);
     header_widget->setLayout(general_headerlay);
 
-    QVBoxLayout* centerlayout = new QVBoxLayout;
-    center_widget = new QWidget(this);
-    center_widget->setStyleSheet(
-    "QWidget { background-color: white; }");
-    center_widget->setLayout(centerlayout);
-    phones = new QLabel(tr("<h1>Phones</h1>"), this);
-    phones->setStyleSheet(
-    "QLabel { color: black; } ");
-    centerlayout->addWidget(phones, 1, Qt::AlignCenter | Qt::AlignTop);
+//    QHBoxLayout* phones_brands = new QHBoxLayout;
+//    QPixmap iphone(":/pictures/iphone.jpg");
+//    QLabel* iphoneLabel = new QLabel(this);f
+//    iphoneLabel->setPixmap(iphone);
+//    phones_brands->addWidget(iphoneLabel, 1, Qt::AlignTop);
 
-    QHBoxLayout* phones_brands = new QHBoxLayout;
-    QPixmap iphone(":/pictures/iphone.jpg");
-    QLabel* iphoneLabel = new QLabel(this);
-    iphoneLabel->setPixmap(iphone);
-    phones_brands->addWidget(iphoneLabel, 1, Qt::AlignTop);
+//    QPixmap mi(":/pictures/mi.jpg");
+//    QLabel* miLabel = new QLabel(this);
+//    miLabel->setPixmap(mi);
+//    phones_brands->addWidget(miLabel, 1, Qt::AlignTop);
 
-    QPixmap mi(":/pictures/mi.jpg");
-    QLabel* miLabel = new QLabel(this);
-    miLabel->setPixmap(mi);
-    phones_brands->addWidget(miLabel, 1, Qt::AlignTop);
+//    QPixmap meizu(":/pictures/meizu.jpg");
+//    QLabel* meizuLabel = new QLabel(this);
+//    meizuLabel->setPixmap(meizu);
+//    phones_brands->addWidget(meizuLabel, 1, Qt::AlignTop);
+//    centerl->addLayout(left);
+//    centerl->addLayout(right);
+//    centerl->addWidget(central_widget);
 
-    QPixmap meizu(":/pictures/meizu.jpg");
-    QLabel* meizuLabel = new QLabel(this);
-    meizuLabel->setPixmap(meizu);
-    phones_brands->addWidget(meizuLabel, 1, Qt::AlignTop);
+    QHBoxLayout* central_layout = new QHBoxLayout;
+    QWidget* left = new QWidget(this);
+    left->setStyleSheet("QWidget { background-color: red; }");
 
-    centerlayout->addLayout(phones_brands);
+    central_widget = new CentralWidget;
+    central_widget->setStyleSheet("QWidget { background-color: white; }");
+
+    central_layout->addWidget(left);
+    central_layout->addWidget(central_widget);
 
     main_layout->addWidget(header_widget);
-    main_layout->addWidget(center_widget);
+    main_layout->addLayout(central_layout);
+}
+
+void MainWindow::initSlots()
+{
+    connect(login_but, SIGNAL(clicked(bool)), this, SLOT(loginClickedSlt()));
+    connect(register_but, SIGNAL(clicked(bool)), this, SLOT(registerClickedSlt()));
+}
+
+void MainWindow::loginClickedSlt()
+{
+    LoginForm* form = LoginForm::Instance(this);
+    form->exec();
+}
+
+void MainWindow::registerClickedSlt()
+{
+    RegisterForm* form = RegisterForm::Instance(this);
+    form->exec();
 }
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
@@ -120,4 +140,5 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     this->setWindowState(Qt::WindowMaximized);
     this->setMinimumSize(1550, 800);
     createInterior();
+    initSlots();
 }

@@ -11,15 +11,20 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QSpacerItem>
+#include <QStackedWidget>
+
+#include "loginform.h"
+#include "registerform.h"
+#include "centralwidget.h"
 
 class MainWindow : public QWidget
 {
     Q_OBJECT
 private:
     QWidget* header_widget;
-    QWidget* center_widget;
+    CentralWidget* central_widget;
     QLabel* number_lbl;
-    QLabel* phones;
+    QLabel* popular;
     QLineEdit* search_line;
     QPushButton* search_but;
     QPushButton* login_but;
@@ -27,6 +32,11 @@ private:
 
 private:
     void createInterior();
+    void initSlots();
+
+private slots:
+    void loginClickedSlt();
+    void registerClickedSlt();
 
 public:
     explicit MainWindow(QWidget* parent = 0);
