@@ -7,6 +7,12 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
+#include "phone.h"
+#include "clickablelabel.h"
+#include "phone.h"
 
 namespace Ui {
     class CentralWidget;
@@ -19,6 +25,7 @@ private:
     QLabel* phones;
     QStackedWidget* stackedWidget;
     Ui::CentralWidget *ui;
+    QSqlDatabase db;
 
 private:
     void createInterior();
@@ -29,6 +36,9 @@ public:
     virtual ~CentralWidget();
 
 signals:
+
+private slots:
+    void huaweiImageClicked();
 
 public slots:
 };

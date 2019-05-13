@@ -16,6 +16,7 @@
 #include "loginform.h"
 #include "registerform.h"
 #include "centralwidget.h"
+#include "phone.h"
 
 class MainWindow : public QWidget
 {

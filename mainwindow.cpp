@@ -84,37 +84,16 @@ void MainWindow::createInterior()
     general_headerlay->addLayout(header_lay);
     header_widget->setLayout(general_headerlay);
 
-//    QHBoxLayout* phones_brands = new QHBoxLayout;
-//    QPixmap iphone(":/pictures/iphone.jpg");
-//    QLabel* iphoneLabel = new QLabel(this);f
-//    iphoneLabel->setPixmap(iphone);
-//    phones_brands->addWidget(iphoneLabel, 1, Qt::AlignTop);
-
-//    QPixmap mi(":/pictures/mi.jpg");
-//    QLabel* miLabel = new QLabel(this);
-//    miLabel->setPixmap(mi);
-//    phones_brands->addWidget(miLabel, 1, Qt::AlignTop);
-
-//    QPixmap meizu(":/pictures/meizu.jpg");
-//    QLabel* meizuLabel = new QLabel(this);
-//    meizuLabel->setPixmap(meizu);
-//    phones_brands->addWidget(meizuLabel, 1, Qt::AlignTop);
-//    centerl->addLayout(left);
-//    centerl->addLayout(right);
-//    centerl->addWidget(central_widget);
-
     QHBoxLayout* central_layout = new QHBoxLayout;
-    QWidget* left = new QWidget(this);
-    left->setStyleSheet("QWidget { background-color: red; }");
-
-    central_widget = new CentralWidget;
+    central_widget = new CentralWidget(this);
     central_widget->setStyleSheet("QWidget { background-color: white; }");
 
-    central_layout->addWidget(left);
     central_layout->addWidget(central_widget);
 
     main_layout->addWidget(header_widget);
-    main_layout->addLayout(central_layout);
+    main_layout->addWidget(central_widget);
+
+    main_layout->setSpacing(0);
 }
 
 void MainWindow::initSlots()

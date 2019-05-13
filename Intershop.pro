@@ -28,16 +28,21 @@ SOURCES += \
     mainwindow.cpp \
     loginform.cpp \
     registerform.cpp \
-    centralwidget.cpp
+    centralwidget.cpp \
+    phone.cpp \
+    clickablelabel.cpp
 
 HEADERS += \
     mainwindow.h \
     loginform.h \
     registerform.h \
-    centralwidget.h
+    centralwidget.h \
+    phone.h \
+    clickablelabel.h
 
 FORMS += \
-    centralwidget.ui
+    centralwidget.ui \
+    phone.ui
 
 DISTFILES +=
 
