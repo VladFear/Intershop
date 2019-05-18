@@ -54,7 +54,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color: black;&quot;&gt;Huawei P30 6/128GB Aurora&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignHCenter|Qt::AlignTop</set>
+      <set>Qt::AlignJustify|Qt::AlignTop</set>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

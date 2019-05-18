@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include "clickablelabel.h"
 
 namespace Ui {
 class Phone;
@@ -16,6 +17,9 @@ private:
 
 public:
     explicit Phone(QWidget *parent = nullptr);
+    ~Phone();
+    ClickableLabel* getImage();
+    ClickableLabel* getModel();
 
 signals:
 

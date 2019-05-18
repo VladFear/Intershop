@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QScrollArea>
 
 #include "phone.h"
 #include "clickablelabel.h"
@@ -39,6 +40,7 @@ signals:
 
 private slots:
     void huaweiImageClicked();
+    void xiaomiImageClicked();
 
 public slots:
 };
