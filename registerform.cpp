@@ -101,21 +101,34 @@ void RegisterForm::signupClickedSlt()
     {
         if (db.open("root", "root"))
         {
+            QString queryStr = QString("%1").arg(QString(QCryptographicHash::hash(passwordLine->text().toUtf8(),QCryptographicHash::Md5).toHex()));
             QSqlQuery query(db);
-            query.prepare("INSERT INTO customer (firstname, lastname, email, phone, login, password) VALUES (:firstname, :lastname, :email, :phone, :login, :password)");
-            query.bindValue(":firstname", firstnameLine->text());
-            query.bindValue(":lastname", lastnameLine->text());
-            query.bindValue(":email", emailLine->text());
-            query.bindValue(":phone", mobileLine->text());
+            query.prepare("SELECT COUNT(*) FROM customer WHERE login = :login");
             query.bindValue(":login", loginLine->text());
-            query.bindValue(":password", passwordLine->text());
             query.exec();
-            db.close();
-            this->reject();
+            if (query.next())
+            {
+                int count = query.value(0).toInt();
+                if (count)
+                    QMessageBox::information(this, "Failed", "Login is already taken");
+                else
+                {
+                    query.prepare("INSERT INTO customer (firstname, lastname, email, phone, login, password) VALUES (:firstname, :lastname, :email, :phone, :login, :password)");
+                    query.bindValue(":firstname", firstnameLine->text());
+                    query.bindValue(":lastname", lastnameLine->text());
+                    query.bindValue(":email", emailLine->text());
+                    query.bindValue(":phone", mobileLine->text());
+                    query.bindValue(":login", loginLine->text());
+                    query.bindValue(":password", queryStr);
+                    query.exec();
+                    db.close();
+                    this->reject();
+                }
+            }
         }
         else
         {
-            QMessageBox::information(this, "not connected", "database is not connected");
+            QMessageBox::information(this, "Not connected", "Database is not connected");
             db.close();
         }
     }

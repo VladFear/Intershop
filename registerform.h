@@ -13,6 +13,7 @@
 #include <QMessageBox>
 #include <QSql>
 #include <QDebug>
+#include <QCryptographicHash>
 
 class RegisterForm : public QDialog
 {
