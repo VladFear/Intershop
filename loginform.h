@@ -26,7 +26,6 @@ private:
     QPushButton* cancelBtn;
     bool visibleLbl;
     static LoginForm* m_pInstance;
-    QSqlDatabase db;
 
 private:
     void createInterior();

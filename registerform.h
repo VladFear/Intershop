@@ -37,7 +37,6 @@ private:
     QPushButton* cancelBtn;
     bool visibleLbl;
     static RegisterForm* m_pInstance;
-    QSqlDatabase db;
 
 private:
     RegisterForm(QWidget* parent = 0, Qt::WindowFlags f = 0);

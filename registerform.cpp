@@ -7,9 +7,6 @@ RegisterForm::RegisterForm(QWidget *parent, Qt::WindowFlags f) : QDialog(parent,
     this->setFixedSize(400, 300);
     createInterior();
     initSlots();
-    db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setDatabaseName("intershop");
-    db.setHostName("127.0.0.1");
 }
 
 void RegisterForm::createInterior()
@@ -99,10 +96,10 @@ void RegisterForm::signupClickedSlt()
     }
     else
     {
-        if (db.open("root", "root"))
+        if (QSqlDatabase::database().isOpen())
         {
             QString queryStr = QString("%1").arg(QString(QCryptographicHash::hash(passwordLine->text().toUtf8(),QCryptographicHash::Md5).toHex()));
-            QSqlQuery query(db);
+            QSqlQuery query(QSqlDatabase::database());
             query.prepare("SELECT COUNT(*) FROM customer WHERE login = :login");
             query.bindValue(":login", loginLine->text());
             query.exec();
@@ -121,16 +118,13 @@ void RegisterForm::signupClickedSlt()
                     query.bindValue(":login", loginLine->text());
                     query.bindValue(":password", queryStr);
                     query.exec();
-                    db.close();
+//                    db.close();
                     this->reject();
                 }
             }
         }
         else
-        {
             QMessageBox::information(this, "Not connected", "Database is not connected");
-            db.close();
-        }
     }
 }
 

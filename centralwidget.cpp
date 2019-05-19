@@ -17,9 +17,6 @@ CentralWidget::CentralWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Cent
     ui->setupUi(this);
     createInterior();
     initSlots();
-    db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setDatabaseName("intershop");
-    db.setHostName("127.0.0.1");
 }
 
 CentralWidget::~CentralWidget()
@@ -29,12 +26,12 @@ CentralWidget::~CentralWidget()
 
 void CentralWidget::huaweiImageClicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(3);
 
-    if (db.open("root", "root"))
+    if (QSqlDatabase::database().isOpen())
     {
         QString manufacturer = "Huawei";
-        QSqlQuery query(db);
+        QSqlQuery query(QSqlDatabase::database());
         query.prepare("SELECT pr.model, pi.picture_1 FROM product pr inner join picturesTable pi on pr.idPicturesTable = pi.id inner join manufacturer ma on pr.idManufacturer = ma.id where ma.name = :manufact");
         query.bindValue(":manufact", manufacturer);
         query.exec();
@@ -62,23 +59,19 @@ void CentralWidget::huaweiImageClicked()
 
         if (i != 0)
             lay->addLayout(row);
-        db.close();
     }
     else
-    {
         QMessageBox::information(this, "Not connected", "<font color='black'>Database is not connected</font>");
-        db.close();
-    }
 }
 
 void CentralWidget::xiaomiImageClicked()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(2);
 
-    if (db.open("root", "root"))
+    if (QSqlDatabase::database().isOpen())
     {
         QString manufacturer = "Xiaomi";
-        QSqlQuery query(db);
+        QSqlQuery query(QSqlDatabase::database());
         query.prepare("SELECT pr.model, pi.picture_1 FROM product pr inner join picturesTable pi on pr.idPicturesTable = pi.id inner join manufacturer ma on pr.idManufacturer = ma.id where ma.name = :manufact");
         query.bindValue(":manufact", manufacturer);
         query.exec();
@@ -106,11 +99,12 @@ void CentralWidget::xiaomiImageClicked()
 
         if (i != 0)
             lay->addLayout(row);
-        db.close();
     }
     else
-    {
         QMessageBox::information(this, "Not connected", "<font color='black'>Database is not connected</font>");
-        db.close();
-    }
+}
+
+void CentralWidget::searchButClicked(QString str)
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }

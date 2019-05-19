@@ -51,6 +51,21 @@ void MainWindow::createInterior()
     search_line->setMinimumSize(700, 25);
     search_line->setPlaceholderText(tr("Search..."));
     search_line->addAction(QIcon(":/icons/search.jpg"), QLineEdit::LeadingPosition);
+    if (QSqlDatabase::database().isOpen())
+    {
+        QStringList wordList;
+        QSqlQuery query(QSqlDatabase::database());
+        query.exec("SELECT string FROM searched");
+        while (query.next())
+        {
+            QString str = query.value(0).toString();
+            wordList << str;
+        }
+
+        QCompleter *completer = new QCompleter(wordList, this);
+        completer->setCaseSensitivity(Qt::CaseInsensitive);
+        search_line->setCompleter(completer);
+    }
     search_but = new QPushButton(this);
     search_but->setStyleSheet(
     "QPushButton { "
@@ -100,6 +115,8 @@ void MainWindow::initSlots()
 {
     connect(login_but, SIGNAL(clicked(bool)), this, SLOT(loginClickedSlt()));
     connect(register_but, SIGNAL(clicked(bool)), this, SLOT(registerClickedSlt()));
+    connect(search_but, SIGNAL(clicked(bool)), this, SLOT(searchButClickedSlt()));
+    connect(this, SIGNAL(searchButClicked(QString)), central_widget, SLOT(searchButClicked(QString)));
 }
 
 void MainWindow::loginClickedSlt()
@@ -118,6 +135,25 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
     this->setWindowState(Qt::WindowMaximized);
     this->setMinimumSize(1550, 800);
+    db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setDatabaseName("intershop");
+    db.setHostName("127.0.0.1");
+    if(!db.open("root", "root"))
+        QMessageBox::information(this, "Not connected", "Database is not connected");
     createInterior();
     initSlots();
+}
+
+void MainWindow::searchButClickedSlt()
+{
+    if (QSqlDatabase::database().isOpen())
+    {
+        qDebug() << "hello";
+        QSqlQuery query(QSqlDatabase::database());
+        query.prepare("INSERT INTO searched(string) VALUES (:str)");
+        query.bindValue(":str", search_line->text());
+        query.exec();
+    }
+
+    emit searchButClicked(search_line->text());
 }

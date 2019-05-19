@@ -28,7 +28,6 @@ private:
     QLabel* phones;
     QStackedWidget* stackedWidget;
     Ui::CentralWidget *ui;
-    QSqlDatabase db;
 
 private:
     void createInterior();
@@ -43,6 +42,9 @@ signals:
 private slots:
     void huaweiImageClicked();
     void xiaomiImageClicked();
+
+public slots:
+    void searchButClicked(QString str);
 
 public slots:
 };

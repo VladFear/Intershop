@@ -12,6 +12,10 @@
 #include <QVBoxLayout>
 #include <QSpacerItem>
 #include <QStackedWidget>
+#include <QDebug>
+#include <QCompleter>
+#include <QSql>
+#include <QMessageBox>
 
 #include "loginform.h"
 #include "registerform.h"
@@ -30,6 +34,7 @@ private:
     QPushButton* search_but;
     QPushButton* login_but;
     QPushButton* register_but;
+    QSqlDatabase db;
 
 private:
     void createInterior();
@@ -38,6 +43,10 @@ private:
 private slots:
     void loginClickedSlt();
     void registerClickedSlt();
+    void searchButClickedSlt();
+
+signals:
+    void searchButClicked(QString str);
 
 public:
     explicit MainWindow(QWidget* parent = 0);
