@@ -32,12 +32,16 @@ void MainWindow::createInterior()
     QLabel* phone_pict = new QLabel(this);
     phone_pict->setPixmap(phone_pix);
 
+    welcome = new QLabel(tr("Welcome, Vlad"), this);
+    welcome->setVisible(false);
+
     navigation_lay->addItem(new QSpacerItem(400, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
     navigation_lay->addWidget(phone_pict);
     navigation_lay->addWidget(number_lbl, 1, Qt::AlignLeft);
     navigation_lay->addItem(new QSpacerItem(200, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
     navigation_lay->addWidget(login_but, 0, Qt::AlignRight);
     navigation_lay->addWidget(register_but, 0, Qt::AlignRight);
+    navigation_lay->addWidget(welcome, 0, Qt::AlignRight);
     navigation_lay->addItem(new QSpacerItem(100, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
 
     QHBoxLayout* search_lay = new QHBoxLayout;
@@ -92,7 +96,7 @@ void MainWindow::createInterior()
     header_lay->addLayout(search_lay);
 
     QPixmap intershop(":/pictures/intershop1.png");
-    QLabel* intershopLabel = new QLabel(this);
+    intershopLabel = new ClickableLabel(this);
     intershopLabel->setPixmap(intershop);
 
     general_headerlay->addWidget(intershopLabel);
@@ -117,6 +121,8 @@ void MainWindow::initSlots()
     connect(register_but, SIGNAL(clicked(bool)), this, SLOT(registerClickedSlt()));
     connect(search_but, SIGNAL(clicked(bool)), this, SLOT(searchButClickedSlt()));
     connect(this, SIGNAL(searchButClicked(QString)), central_widget, SLOT(searchButClicked(QString)));
+    connect(intershopLabel, SIGNAL(clicked()), this, SLOT(intershopImageClickedSlt()));
+    connect(this, SIGNAL(intershopImageClicked()), central_widget, SLOT(intershopImageClicked()));
 }
 
 void MainWindow::loginClickedSlt()
@@ -131,7 +137,7 @@ void MainWindow::registerClickedSlt()
     form->exec();
 }
 
-MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
+MainWindow::MainWindow(QWidget *parent) : QWidget(parent), user(0)
 {
     this->setWindowState(Qt::WindowMaximized);
     this->setMinimumSize(1550, 800);
@@ -155,4 +161,9 @@ void MainWindow::searchButClickedSlt()
     }
 
     emit searchButClicked(search_line->text());
+}
+
+void MainWindow::intershopImageClickedSlt()
+{
+    emit intershopImageClicked();
 }

@@ -11,6 +11,9 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSql>
+#include <QDebug>
+#include <QCryptographicHash>
+#include <QMessageBox>
 
 class LoginForm : public QDialog
 {

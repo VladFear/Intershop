@@ -42,6 +42,8 @@ CentralWidget::~CentralWidget()
 void CentralWidget::huaweiImageClicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
+    QVBoxLayout* lay = ui->scrollWidg->findChild<QVBoxLayout*>(QString("verticalLayout_6"));
+    clearLayout(lay, true);
 
     if (QSqlDatabase::database().isOpen())
     {
@@ -51,7 +53,6 @@ void CentralWidget::huaweiImageClicked()
         query.bindValue(":manufact", manufacturer);
         query.exec();
 
-        QVBoxLayout* lay = ui->scrollWidg->findChild<QVBoxLayout*>(QString("verticalLayout_6"));
         int i = 0;
         QHBoxLayout* row = new QHBoxLayout;
         while (query.next())
@@ -82,6 +83,8 @@ void CentralWidget::huaweiImageClicked()
 void CentralWidget::xiaomiImageClicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
+    QVBoxLayout* lay = ui->scrollWidg_2->findChild<QVBoxLayout*>(QString("verticalLayout_8"));
+    clearLayout(lay, true);
 
     if (QSqlDatabase::database().isOpen())
     {
@@ -91,7 +94,6 @@ void CentralWidget::xiaomiImageClicked()
         query.bindValue(":manufact", manufacturer);
         query.exec();
 
-        QVBoxLayout* lay = ui->scrollWidg_2->findChild<QVBoxLayout*>(QString("verticalLayout_8"));
         int i = 0;
         QHBoxLayout* row = new QHBoxLayout;
         while (query.next())
@@ -117,6 +119,11 @@ void CentralWidget::xiaomiImageClicked()
     }
     else
         QMessageBox::information(this, "Not connected", "<font color='black'>Database is not connected</font>");
+}
+
+void CentralWidget::intershopImageClicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
 }
 
 void CentralWidget::searchButClicked(QString str)

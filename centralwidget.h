@@ -46,6 +46,7 @@ private slots:
 
 public slots:
     void searchButClicked(QString str);
+    void intershopImageClicked();
 
 public slots:
 };

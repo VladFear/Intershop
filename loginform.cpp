@@ -46,9 +46,47 @@ void LoginForm::initSlots()
 
 void LoginForm::loginClickedSlt()
 {
-//    visibleLbl = !visibleLbl;
-//    errorLbl->setVisible(visibleLbl);
-    this->reject();
+    errorLbl->setVisible(false);
+    if (loginLine->text() == "" || passwordLine->text() == "")
+    {
+        QString str = "Not all fields are filled.";
+        errorLbl->setText(str);
+        errorLbl->setVisible(true);
+    }
+    else
+    {
+        if (QSqlDatabase::database().isOpen())
+        {
+            QString password = QString("%1").arg(QString(QCryptographicHash::hash(passwordLine->text().toUtf8(),QCryptographicHash::Md5).toHex()));
+            QSqlQuery query(QSqlDatabase::database());
+            query.prepare("SELECT COUNT(*) FROM customer WHERE login = :login");
+            query.bindValue(":login", loginLine->text());
+            query.exec();
+            if (query.next())
+            {
+                int count = query.value(0).toInt();
+//                bool exist = false;
+                if (count)
+                {
+                    qDebug() << "exist";
+//                    QString pass = query.value(2).toString();
+//                    if (password == pass) exist = true;
+//                    else exist = false;
+//                    this->reject();
+                }
+                else
+//                if (!exist)
+                {
+                    QString str = "Wrong login or password.";
+                    errorLbl->setText(str);
+                    errorLbl->setVisible(true);
+                }
+            }
+        }
+        else
+            QMessageBox::information(this, "Not connected", "Database is not connected");
+    }
+//    this->reject();
 }
 
 LoginForm* LoginForm::m_pInstance = nullptr;
