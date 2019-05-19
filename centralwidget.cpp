@@ -30,32 +30,87 @@ CentralWidget::~CentralWidget()
 void CentralWidget::huaweiImageClicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
-//    QSqlQuery query(db);
-//    query.prepare("INSERT INTO customer (firstname, lastname, email, phone, login, password) VALUES (:firstname, :lastname, :email, :phone, :login, :password)");
-//    query.bindValue(":firstname", firstnameLine->text());
-//    query.bindValue(":lastname", lastnameLine->text());
-//    query.bindValue(":email", emailLine->text());
-//    query.bindValue(":phone", mobileLine->text());
-//    query.bindValue(":login", loginLine->text());
-//    query.bindValue(":password", passwordLine->text());
-//    query.exec();
 
-    QVBoxLayout* lay = ui->scrollWidg->findChild<QVBoxLayout*>(QString("verticalLayout_6"));
-
-    for (int j = 0; j < 3; j++)
+    if (db.open("root", "root"))
     {
-        QLayout* row = new QHBoxLayout;
-        for (int i = 0; i < 5; i++)
+        QString manufacturer = "Huawei";
+        QSqlQuery query(db);
+        query.prepare("SELECT pr.model, pi.picture_1 FROM product pr inner join picturesTable pi on pr.idPicturesTable = pi.id inner join manufacturer ma on pr.idManufacturer = ma.id where ma.name = :manufact");
+        query.bindValue(":manufact", manufacturer);
+        query.exec();
+
+        QVBoxLayout* lay = ui->scrollWidg->findChild<QVBoxLayout*>(QString("verticalLayout_6"));
+        int i = 0;
+        QHBoxLayout* row = new QHBoxLayout;
+        while (query.next())
         {
-            Phone* new_ph = new Phone(this);
-            new_ph->getImage()->setPixmap(QPixmap("/home/vlad/Programming/Qt Projects/Intershop/pictures/Huawei/huawei_2.jpg"));
-            row->addWidget(new_ph);
+            if (i == 5)
+            {
+                lay->addLayout(row);
+                i = 0;
+                row = new QHBoxLayout;
+            }
+
+            QString model = query.value(0).toString();
+            QString image = query.value(1).toString();
+            Phone* new_phone = new Phone(this);
+            new_phone->setImage(image);
+            new_phone->setModel(model);
+            row->addWidget(new_phone);
+            i++;
         }
-        lay->addLayout(row);
+
+        if (i != 0)
+            lay->addLayout(row);
+        db.close();
+    }
+    else
+    {
+        QMessageBox::information(this, "Not connected", "<font color='black'>Database is not connected</font>");
+        db.close();
     }
 }
 
 void CentralWidget::xiaomiImageClicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
+
+    if (db.open("root", "root"))
+    {
+        QString manufacturer = "Xiaomi";
+        QSqlQuery query(db);
+        query.prepare("SELECT pr.model, pi.picture_1 FROM product pr inner join picturesTable pi on pr.idPicturesTable = pi.id inner join manufacturer ma on pr.idManufacturer = ma.id where ma.name = :manufact");
+        query.bindValue(":manufact", manufacturer);
+        query.exec();
+
+        QVBoxLayout* lay = ui->scrollWidg_2->findChild<QVBoxLayout*>(QString("verticalLayout_8"));
+        int i = 0;
+        QHBoxLayout* row = new QHBoxLayout;
+        while (query.next())
+        {
+            if (i == 5)
+            {
+                lay->addLayout(row);
+                i = 0;
+                row = new QHBoxLayout;
+            }
+
+            QString model = query.value(0).toString();
+            QString image = query.value(1).toString();
+            Phone* new_phone = new Phone(this);
+            new_phone->setImage(image);
+            new_phone->setModel(model);
+            row->addWidget(new_phone);
+            i++;
+        }
+
+        if (i != 0)
+            lay->addLayout(row);
+        db.close();
+    }
+    else
+    {
+        QMessageBox::information(this, "Not connected", "<font color='black'>Database is not connected</font>");
+        db.close();
+    }
 }

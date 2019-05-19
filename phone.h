@@ -20,6 +20,8 @@ public:
     ~Phone();
     ClickableLabel* getImage();
     ClickableLabel* getModel();
+    void setImage(QString&);
+    void* setModel(QString&);
 
 signals:
 

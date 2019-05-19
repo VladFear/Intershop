@@ -205,11 +205,6 @@
          </property>
         </spacer>
        </item>
-       <item>
-        <widget class="Phone" name="phone" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_5"/>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="xiaomiPage">
@@ -231,6 +226,12 @@
        </property>
        <item>
         <widget class="QScrollArea" name="scrollArea_2">
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="lineWidth">
+          <number>0</number>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -333,12 +334,6 @@
    <class>ClickableLabel</class>
    <extends>QLabel</extends>
    <header location="global">clickablelabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Phone</class>
-   <extends>QWidget</extends>
-   <header location="global">phone.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

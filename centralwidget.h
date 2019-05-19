@@ -10,6 +10,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QScrollArea>
+#include <QMessageBox>
+#include <QDebug>
 
 #include "phone.h"
 #include "clickablelabel.h"
