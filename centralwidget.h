@@ -41,8 +41,7 @@ public:
 signals:
 
 private slots:
-    void huaweiImageClicked();
-    void xiaomiImageClicked();
+    void displayBrandPhones(QString);
 
 public slots:
     void searchButClicked(QString str);

@@ -121,7 +121,7 @@ void MainWindow::initSlots()
     connect(register_but, SIGNAL(clicked(bool)), this, SLOT(registerClickedSlt()));
     connect(search_but, SIGNAL(clicked(bool)), this, SLOT(searchButClickedSlt()));
     connect(this, SIGNAL(searchButClicked(QString)), central_widget, SLOT(searchButClicked(QString)));
-    connect(intershopLabel, SIGNAL(clicked()), this, SLOT(intershopImageClickedSlt()));
+    connect(intershopLabel, SIGNAL(clicked(QString)), this, SLOT(intershopImageClickedSlt()));
     connect(this, SIGNAL(intershopImageClicked()), central_widget, SLOT(intershopImageClicked()));
 }
 
