@@ -148,7 +148,6 @@ void MainWindow::searchButClickedSlt()
 {
     if (QSqlDatabase::database().isOpen())
     {
-        qDebug() << "hello";
         QSqlQuery query(QSqlDatabase::database());
         query.prepare("INSERT INTO searched(string) VALUES (:str)");
         query.bindValue(":str", search_line->text());

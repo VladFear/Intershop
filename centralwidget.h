@@ -32,6 +32,7 @@ private:
 private:
     void createInterior();
     void initSlots();
+    void clearLayout(QLayout* layout, bool deleteWidgets = true);
 
 public:
     explicit CentralWidget(QWidget *parent = nullptr);

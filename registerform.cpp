@@ -118,7 +118,6 @@ void RegisterForm::signupClickedSlt()
                     query.bindValue(":login", loginLine->text());
                     query.bindValue(":password", queryStr);
                     query.exec();
-//                    db.close();
                     this->reject();
                 }
             }
