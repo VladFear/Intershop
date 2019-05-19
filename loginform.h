@@ -39,6 +39,9 @@ private slots:
     void loginClickedSlt();
     void cancelClickedSlt();
 
+signals:
+    void logged(int id);
+
 public:
     static LoginForm* Instance(QWidget* parent = 0, Qt::WindowFlags = 0);
 };

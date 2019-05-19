@@ -37,6 +37,8 @@ private:
     QPushButton* login_but;
     QPushButton* register_but;
     ClickableLabel* intershopLabel;
+    LoginForm* login_form;
+    RegisterForm* register_form;
     QSqlDatabase db;
     int user;
 
@@ -49,6 +51,9 @@ private slots:
     void registerClickedSlt();
     void searchButClickedSlt();
     void intershopImageClickedSlt();
+
+public slots:
+    void userLogged(int id);
 
 signals:
     void searchButClicked(QString str);

@@ -32,7 +32,8 @@ void MainWindow::createInterior()
     QLabel* phone_pict = new QLabel(this);
     phone_pict->setPixmap(phone_pix);
 
-    welcome = new QLabel(tr("Welcome, Vlad"), this);
+    welcome = new QLabel(tr("Welcome, "), this);
+    welcome->setStyleSheet("QLabel { font-weight: bold; color: white; }");
     welcome->setVisible(false);
 
     navigation_lay->addItem(new QSpacerItem(400, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
@@ -113,6 +114,10 @@ void MainWindow::createInterior()
     main_layout->addWidget(central_widget);
 
     main_layout->setSpacing(0);
+
+    login_form = LoginForm::Instance(this);
+
+    register_form = RegisterForm::Instance(this);
 }
 
 void MainWindow::initSlots()
@@ -123,18 +128,17 @@ void MainWindow::initSlots()
     connect(this, SIGNAL(searchButClicked(QString)), central_widget, SLOT(searchButClicked(QString)));
     connect(intershopLabel, SIGNAL(clicked(QString)), this, SLOT(intershopImageClickedSlt()));
     connect(this, SIGNAL(intershopImageClicked()), central_widget, SLOT(intershopImageClicked()));
+    connect(login_form, SIGNAL(logged(int)), this, SLOT(userLogged(int)));
 }
 
 void MainWindow::loginClickedSlt()
 {
-    LoginForm* form = LoginForm::Instance(this);
-    form->exec();
+    login_form->exec();
 }
 
 void MainWindow::registerClickedSlt()
 {
-    RegisterForm* form = RegisterForm::Instance(this);
-    form->exec();
+    register_form->exec();
 }
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent), user(0)
@@ -166,4 +170,22 @@ void MainWindow::searchButClickedSlt()
 void MainWindow::intershopImageClickedSlt()
 {
     emit intershopImageClicked();
+}
+
+void MainWindow::userLogged(int id)
+{
+    if (QSqlDatabase::database().isOpen())
+    {
+        QSqlQuery query(QSqlDatabase::database());
+        query.prepare("SELECT login FROM customer WHERE id = :id");
+        query.bindValue(":id", id);
+        query.exec();
+        query.first();
+        welcome->setText(welcome->text() + query.value(0).toString());
+        welcome->setVisible(true);
+        login_but->setVisible(false);
+        register_but->setVisible(false);
+    }
+    else
+        QMessageBox::information(this, "Not connected", "Database is not connected");
 }

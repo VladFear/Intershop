@@ -68,13 +68,15 @@ void LoginForm::loginClickedSlt()
                 bool exist = false;
                 if (count)
                 {
-                    query.prepare("SELECT password FROM customer WHERE login = :login");
+                    query.prepare("SELECT password, id FROM customer WHERE login = :login");
                     query.bindValue(":login", loginLine->text());
                     query.exec();
                     query.first();
                     QString pass = query.value(0).toString();
+                    int id = query.value(1).toInt();
                     if (password == pass) exist = true;
                     else exist = false;
+                    emit logged(id);
                 }
 
                 if (!exist)
