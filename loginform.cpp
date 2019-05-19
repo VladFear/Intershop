@@ -65,28 +65,31 @@ void LoginForm::loginClickedSlt()
             if (query.next())
             {
                 int count = query.value(0).toInt();
-//                bool exist = false;
+                bool exist = false;
                 if (count)
                 {
-                    qDebug() << "exist";
-//                    QString pass = query.value(2).toString();
-//                    if (password == pass) exist = true;
-//                    else exist = false;
-//                    this->reject();
+                    query.prepare("SELECT password FROM customer WHERE login = :login");
+                    query.bindValue(":login", loginLine->text());
+                    query.exec();
+                    query.first();
+                    QString pass = query.value(0).toString();
+                    if (password == pass) exist = true;
+                    else exist = false;
                 }
-                else
-//                if (!exist)
+
+                if (!exist)
                 {
                     QString str = "Wrong login or password.";
                     errorLbl->setText(str);
                     errorLbl->setVisible(true);
                 }
+                else
+                    this->reject();
             }
         }
         else
             QMessageBox::information(this, "Not connected", "Database is not connected");
     }
-//    this->reject();
 }
 
 LoginForm* LoginForm::m_pInstance = nullptr;

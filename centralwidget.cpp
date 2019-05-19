@@ -156,7 +156,6 @@ void CentralWidget::searchButClicked(QString str)
             new_phone->setImage(image);
             new_phone->setModel(model);
             row->addWidget(new_phone);
-            qDebug() << model << image;
             i++;
         }
 
